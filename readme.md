@@ -15,7 +15,6 @@ mkdir my-new-project && cd $_
 ```
 
 Run `yo marionette-2`
-```
 
 ## Generators
 
@@ -88,7 +87,7 @@ jst: {
             '.tmp/scripts/templates.js': ['<%= yeoman.app %>/scripts/templates/*.ejs']
         }
     }
-},
+}
 ```
 A result of this change is that your template variable definitions must also be updated from `<%= templateVariable %>` to `<%= data.templateVariable %>`. More information on this can be found in the [Underscore documentation](http://underscorejs.org/#template).
 
