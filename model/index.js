@@ -28,7 +28,6 @@ var ModelGenerator = scriptBase.extend({
       as: 'model',
       args: [this.name],
       options: {
-        coffee: this.config.get('coffee'),
         ui: this.config.get('ui')
       }
     };

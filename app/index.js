@@ -61,7 +61,6 @@ var BackboneGenerator = yeoman.generators.Base.extend({
     this.config.defaults({
       appName: this.appname,
       ui: this.options.ui,
-      coffee: this.options.coffee,
       testFramework: this.testFramework,
       templateFramework: this.templateFramework,
       compassBootstrap: this.compassBootstrap,
@@ -94,11 +93,6 @@ var BackboneGenerator = yeoman.generators.Base.extend({
             checked: true
           },
           {
-            name: 'Use CoffeeScript',
-            value: 'coffee',
-            checked: this.options.coffee || false
-          },
-          {
             name: 'Use RequireJs',
             value: 'requirejs',
             checked: this.options.requirejs || false
@@ -123,12 +117,6 @@ var BackboneGenerator = yeoman.generators.Base.extend({
       this.includeRequireJS = hasFeature('requirejs');
       this.config.set('compassBootstrap', this.compassBootstrap);
 
-
-      if (!this.options.coffee) {
-        this.options.coffee = hasFeature('coffee');
-        this.config.set('coffee', this.options.coffee);
-      }
-
       if (!this.options.requirejs) {
         this.options.requirejs = this.includeRequireJS;
         this.config.set('includeRequireJS', this.includeRequireJS);
@@ -150,6 +138,10 @@ var BackboneGenerator = yeoman.generators.Base.extend({
 
     jshint: function () {
       this.copy('jshintrc', '.jshintrc');
+    },
+
+    jscs: function () {
+      this.copy('jscsrc', '.jscsrc');
     },
 
     editorConfig: function () {
@@ -187,7 +179,8 @@ var BackboneGenerator = yeoman.generators.Base.extend({
       var vendorJS = [
         '/jquery/dist/jquery.js',
         '/underscore/underscore.js',
-        '/backbone/backbone.js'
+        '/backbone/backbone.js',
+        '/marionette/lib/backbone.marionette.js'
       ];
 
       if (this.templateFramework === 'handlebars') {
@@ -218,10 +211,11 @@ var BackboneGenerator = yeoman.generators.Base.extend({
         html: this.indexFile,
         fileType: 'js',
         searchPath: ['.tmp', this.env.options.appPath],
-        optimizedPath: 'scripts/main.js',
+        optimizedPath: 'scripts/app.js',
         sourceFileList: [
-          'scripts/main.js',
-          'scripts/templates.js'
+          'scripts/app.js',
+          'scripts/templates.js',
+          'scripts/bootstrap.js'
         ]
       });
     },
@@ -262,16 +256,18 @@ var BackboneGenerator = yeoman.generators.Base.extend({
       if (this.includeRequireJS) {
         return;
       }
-      this._writeTemplate('app', this.env.options.appPath + '/scripts/main');
+      this._writeTemplate('app', this.env.options.appPath + '/scripts/app');
+    },
+
+    createBootstrapFile: function () {
+      if (!this.includeRequireJS) {
+        this._writeTemplate('bootstrap', this.env.options.appPath + '/scripts/bootstrap');
+      }
     }
   },
 
   setSuffix: function () {
     this.scriptSuffix = '.js';
-
-    if (this.env.options.coffee || this.options.coffee) {
-      this.scriptSuffix = '.coffee';
-    }
   },
 
   _writeTemplate: function (source, destination, data) {

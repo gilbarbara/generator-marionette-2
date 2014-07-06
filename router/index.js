@@ -7,14 +7,13 @@ var scriptBase = require('../script-base');
 var RouterGenerator = scriptBase.extend({
   constructor: function () {
     scriptBase.apply(this, arguments);
-    var dirPath = this.options.coffee ? '../templates/coffeescript/' : '../templates';
+    var dirPath = '../templates';
     this.sourceRoot(path.join(__dirname, dirPath));
 
     var testOptions = {
       as: 'router',
       args: [this.name],
       options: {
-        coffee: this.config.get('coffee'),
         ui: this.config.get('ui')
       }
     };

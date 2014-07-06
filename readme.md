@@ -44,10 +44,6 @@ grunt serve
 
   Generate scaffold into a custom directory.
 
-* `--coffee`
-
-  Generate scaffolds in CoffeeScript. By default check if project uses CoffeeScript.
-
 * `--requirejs`
 
   Generate scaffolds using RequireJS (AMD) Loader. By default check if project uses RequireJS.

@@ -1,18 +1,13 @@
-/*global <%= _.camelize(appname) %>, $*/
+var <%= _.camelize(appname) %> = new Marionette.Application();
 
+<%= _.camelize(appname) %>.addRegions({
+  mainRegion: "#main-region"
+});
 
-window.<%= _.camelize(appname) %> = {
-    Models: {},
-    Collections: {},
-    Views: {},
-    Routers: {},
-    init: function () {
-        'use strict';
-        console.log('Hello from Backbone!');
-    }
-};
+<%= _.camelize(appname) %>.on("start", function (options) {
+  if (Backbone.history) {
+    Backbone.history.start();
+  }
 
-$(document).ready(function () {
-    'use strict';
-    <%= _.camelize(appname) %>.init();
+  console.log("Hello From <%= _.camelize(appname) %> Marionette App");
 });

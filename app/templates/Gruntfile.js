@@ -31,15 +31,7 @@ module.exports = function (grunt) {
             options: {
                 nospawn: true,
                 livereload: true
-            },<% if (options.coffee) { %>
-            coffee: {
-                files: ['<%%= yeoman.app %>/scripts/{,*/}*.coffee'],
-                tasks: ['coffee:dist']
-            },
-            coffeeTest: {
-                files: ['test/spec/{,*/}*.coffee'],
-                tasks: ['coffee:test']
-            },<% } %><% if (compassBootstrap) { %>
+            },<% if (compassBootstrap) { %>
             compass: {
                 files: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
                 tasks: ['compass']
@@ -164,29 +156,7 @@ module.exports = function (grunt) {
                     ]
                 }
             }
-        }<% } %>,<% if (options.coffee) { %>
-        coffee: {
-            dist: {
-                files: [{
-                    // rather than compiling multiple files here you should
-                    // require them into your main .coffee file
-                    expand: true,
-                    cwd: '<%%= yeoman.app %>/scripts',
-                    src: '{,*/}*.coffee',
-                    dest: '.tmp/scripts',
-                    ext: '.js'
-                }]
-            },
-            test: {
-                files: [{
-                    expand: true,
-                    cwd: 'test/spec',
-                    src: '{,*/}*.coffee',
-                    dest: '.tmp/spec',
-                    ext: '.js'
-                }]
-            }
-        },<% } %><% if (compassBootstrap) { %>
+        }<% } %>,<% if (compassBootstrap) { %>
         compass: {
             options: {
                 sassDir: '<%%= yeoman.app %>/styles',
@@ -207,10 +177,8 @@ module.exports = function (grunt) {
         requirejs: {
             dist: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
-                options: {<% if (options.coffee) { %>
-                    // `name` and `out` is set by grunt-usemin
-                    baseUrl: '.tmp/scripts',<% } else { %>
-                    baseUrl: '<%%= yeoman.app %>/scripts',<% } %>
+                options: {
+                    baseUrl: '<%%= yeoman.app %>/scripts',
                     optimize: 'none',
                     paths: {
                         'templates': '../../.tmp/scripts/templates',
@@ -395,8 +363,7 @@ module.exports = function (grunt) {
 
         if (target === 'test') {
             return grunt.task.run([
-                'clean:server',<% if (options.coffee) { %>
-                'coffee',<% } %>
+                'clean:server',
                 'createDefaultTemplate',<% if (templateFramework === 'mustache' ) { %>
                 'mustache',<% } else if (templateFramework === 'handlebars') { %>
                 'handlebars',<% } else { %>
@@ -409,8 +376,7 @@ module.exports = function (grunt) {
         }
 
         grunt.task.run([
-            'clean:server',<% if (options.coffee) { %>
-            'coffee:dist',<% } %>
+            'clean:server',
             'createDefaultTemplate',<% if (templateFramework === 'mustache') { %>
             'mustache',<% } else if (templateFramework === 'handlebars') { %>
             'handlebars',<% } else { %>
@@ -440,8 +406,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', function (isConnected) {
         isConnected = Boolean(isConnected);
         var testTasks = [
-                'clean:server',<% if (options.coffee) { %>
-                'coffee',<% } %>
+                'clean:server',
                 'createDefaultTemplate',<% if (templateFramework === 'mustache' ) { %>
                 'mustache',<% } else if (templateFramework === 'handlebars') { %>
                 'handlebars',<% } else { %>
@@ -463,8 +428,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('build', [
-        'clean:dist',<% if (options.coffee) { %>
-        'coffee',<% } %>
+        'clean:dist',
         'createDefaultTemplate',<% if (templateFramework === 'mustache' ) { %>
         'mustache',<% } else if (templateFramework === 'handlebars') { %>
         'handlebars',<% } else { %>

@@ -11,12 +11,6 @@ var ScriptBase = yeoman.generators.NamedBase.extend({
 		this.appname = this.config.get('appName') || path.basename(process.cwd());
 		this.env.options.appPath = this.config.get('appPath') || 'app';
 
-		this.options.coffee = this.config.get('coffee') || false;
-
-		if (typeof this.env.options.coffee === 'undefined') {
-			this.env.options.coffee = this.options.coffee;
-		}
-
 		// check if --requirejs option provided or if require is setup
 		if (typeof this.env.options.requirejs === 'undefined') {
 			this.option('requirejs');
@@ -48,11 +42,6 @@ var ScriptBase = yeoman.generators.NamedBase.extend({
 	setupSourceRootAndSuffix: function () {
 		var sourceRoot = '/templates';
 		this.scriptSuffix = '.js';
-
-		if (this.env.options.coffee || this.options.coffee) {
-			sourceRoot = '/templates/coffeescript';
-			this.scriptSuffix = '.coffee';
-		}
 
 		if (this.env.options.requirejs || this.options.requirejs) {
 			sourceRoot += '/requirejs';
