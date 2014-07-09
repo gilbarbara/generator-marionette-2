@@ -27,9 +27,7 @@ var CollectionGenerator = scriptBase.extend({
   createControllerFiles: function () {
     this.writeTemplate('collection', path.join(this.env.options.appPath + '/scripts/collections', this.name));
 
-    if (!this.options.requirejs) {
-      this.addScriptToIndex('collections/' + this.name);
-    }
+    this.addScriptToIndex('collections/' + this.name);
   }
 });
 

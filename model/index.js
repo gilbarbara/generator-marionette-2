@@ -41,9 +41,7 @@ var ModelGenerator = scriptBase.extend({
   createModelFiles: function () {
     this.writeTemplate('model', path.join(this.env.options.appPath + '/scripts/models', this.name));
 
-    if (!this.options.requirejs) {
-      this.addScriptToIndex('models/' + this.name);
-    }
+    this.addScriptToIndex('models/' + this.name);
   }
 });
 

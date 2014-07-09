@@ -1,6 +1,6 @@
 'use strict';
-var LIVERELOAD_PORT = 35729;
-var SERVER_PORT = 9000;
+var LIVERELOAD_PORT = 4000;
+var SERVER_PORT = 3000;
 var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
 var mountFolder = function (connect, dir) {
     return connect.static(require('path').resolve(dir));
@@ -173,37 +173,7 @@ module.exports = function (grunt) {
                     debugInfo: true
                 }
             }
-        },<% } %><% if (includeRequireJS) { %>
-        requirejs: {
-            dist: {
-                // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
-                options: {
-                    baseUrl: '<%%= yeoman.app %>/scripts',
-                    optimize: 'none',
-                    paths: {
-                        'templates': '../../.tmp/scripts/templates',
-                        'jquery': '../../bower_components/jquery/dist/jquery',
-                        'underscore': '../../bower_components/lodash/dist/lodash',
-                        'backbone': '../../bower_components/backbone/backbone'
-                    },
-                    // TODO: Figure out how to make sourcemaps work with grunt-usemin
-                    // https://github.com/yeoman/grunt-usemin/issues/30
-                    //generateSourceMaps: true,
-                    // required to support SourceMaps
-                    // http://requirejs.org/docs/errors.html#sourcemapcomments
-                    preserveLicenseComments: false,
-                    useStrict: true<% if (templateFramework !== 'handlebars') { %>,
-                    wrap: true<% } %>
-                    //uglify2: {} // https://github.com/mishoo/UglifyJS2
-                }
-            }
-        },<% } else { %>
-        // not enabled since usemin task does concat and uglify
-        // check index.html to edit your build targets
-        // enable this task if you prefer defining your build targets here
-        /*uglify: {
-            dist: {}
-        },*/<% } %>
+        },<% } %>
         useminPrepare: {
             html: '<%%= yeoman.app %>/index.html',
             options: {
@@ -294,39 +264,28 @@ module.exports = function (grunt) {
                 ]
             }<% } %>
 
-        },<% if (includeRequireJS) { %>
-        bower: {
-            all: {
-                rjsConfig: '<%%= yeoman.app %>/scripts/main.js'
-            }
-        },<% } %><% if (templateFramework === 'mustache') { %>
+        },<% if (templateFramework === 'mustache') { %>
         mustache: {
             files: {
                 src: '<%%= yeoman.app %>/scripts/templates/',
                 dest: '.tmp/scripts/templates.js',
-                options: {<% if (includeRequireJS) { %>
-                    prefix: 'define(function() { this.JST = ',
-                    postfix: '; return this.JST;});'<% } else { %>
+                options: {
                     prefix: 'this.JST = ',
-                    postfix: ';'<% } %>
+                    postfix: ';'
                 }
             }
         }<% } else if (templateFramework === 'handlebars') { %>
         handlebars: {
             compile: {
                 options: {
-                    namespace: 'JST'<% if (includeRequireJS) { %>,
-                    amd: true<% } %>
+                    namespace: 'JST'
                 },
                 files: {
                     '.tmp/scripts/templates.js': ['<%%= yeoman.app %>/scripts/templates/*.hbs']
                 }
             }
         }<% } else { %>
-        jst: {<% if (includeRequireJS) { %>
-            options: {
-                amd: true
-            },<% } %>
+        jst: {
             compile: {
                 files: {
                     '.tmp/scripts/templates.js': ['<%%= yeoman.app %>/scripts/templates/*.ejs']
@@ -349,11 +308,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('createDefaultTemplate', function () {
         grunt.file.write('.tmp/scripts/templates.js', 'this.JST = this.JST || {};');
-    });
-
-    grunt.registerTask('server', function (target) {
-        grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-        grunt.task.run(['serve' + (target ? ':' + target : '')]);
     });
 
     grunt.registerTask('serve', function (target) {
@@ -434,8 +388,7 @@ module.exports = function (grunt) {
         'handlebars',<% } else { %>
         'jst',<% } %><% if (compassBootstrap) { %>
         'compass:dist',<% } %>
-        'useminPrepare',<% if (includeRequireJS) { %>
-        'requirejs',<% } %>
+        'useminPrepare',
         'imagemin',
         'htmlmin',
         'concat',

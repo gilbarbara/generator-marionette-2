@@ -11,15 +11,6 @@ var ScriptBase = yeoman.generators.NamedBase.extend({
 		this.appname = this.config.get('appName') || path.basename(process.cwd());
 		this.env.options.appPath = this.config.get('appPath') || 'app';
 
-		// check if --requirejs option provided or if require is setup
-		if (typeof this.env.options.requirejs === 'undefined') {
-			this.option('requirejs');
-
-			this.options.requirejs = this.config.get('includeRequireJS') || false;
-
-			this.env.options.requirejs = this.options.requirejs;
-		}
-
 		this._.mixin({ 'classify': backboneUtils.classify });
 	},
 	addScriptToIndex: function (script) {
@@ -43,10 +34,6 @@ var ScriptBase = yeoman.generators.NamedBase.extend({
 		var sourceRoot = '/templates';
 		this.scriptSuffix = '.js';
 
-		if (this.env.options.requirejs || this.options.requirejs) {
-			sourceRoot += '/requirejs';
-		}
-
 		this.sourceRoot(path.join(__dirname, sourceRoot));
 	},
 
@@ -57,7 +44,7 @@ var ScriptBase = yeoman.generators.NamedBase.extend({
 	},
 
 	generateTests: function () {
-		return this.config.get('testFramework') === 'mocha' && !this.config.get('includeRequireJS');
+		return this.config.get('testFramework') === 'mocha';
 	}
 });
 

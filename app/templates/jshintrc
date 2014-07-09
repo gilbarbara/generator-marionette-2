@@ -21,6 +21,7 @@
     "<%= appname %>": true,
     "_": false,
     "Backbone": false,
+    "Marionette": false,
     "Modernizr": false,
     "JST": false,
     "beforeEach": false,
@@ -28,8 +29,6 @@
     "it": false,
     "assert": true,
     "expect": true,
-    "should": true<% if (includeRequireJS) { %>,
-    "require": false,
-    "define": false<% } %>
+    "should": true
   }
 }

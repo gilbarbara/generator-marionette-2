@@ -4,14 +4,15 @@ var util = require('util');
 var yeoman = require('yeoman-generator');
 var scriptBase = require('../script-base');
 
-var RouterGenerator = scriptBase.extend({
+var ModuleGenerator = scriptBase.extend({
   constructor: function () {
     scriptBase.apply(this, arguments);
+
     var dirPath = '../templates';
     this.sourceRoot(path.join(__dirname, dirPath));
 
     var testOptions = {
-      as: 'router',
+      as: 'module',
       args: [this.name],
       options: {
         ui: this.config.get('ui')
@@ -24,10 +25,13 @@ var RouterGenerator = scriptBase.extend({
   },
 
   createControllerFiles: function () {
-    this.writeTemplate('router', path.join(this.env.options.appPath + '/scripts/routes', this.name));
 
-    this.addScriptToIndex('routes/' + this.name);
+    // todo: create directory
+
+    this.writeTemplate('module', path.join(this.env.options.appPath + '/scripts/modules', this.name));
+
+    this.addScriptToIndex('modules/' + this.name);
   }
 });
 
-module.exports = RouterGenerator;
+module.exports = ModuleGenerator;

@@ -1,3 +1,3 @@
 $(function () {
-  <%= _.camelize(appname) %>.start();
+	<%= _.camelize(appname) %>.start();
 });

@@ -16,11 +16,6 @@ var BackboneGenerator = yeoman.generators.Base.extend({
       banner: 'some banner'
     });
 
-    this.option('requirejs', {
-      desc: 'Support requirejs',
-      defaults: false
-    });
-
     this.option('template-framework', {
       desc: 'Choose template framework. lodash/handlebars/mustashe',
       type: 'String',
@@ -38,7 +33,7 @@ var BackboneGenerator = yeoman.generators.Base.extend({
 
     this.argument('app_name', {
       type: String,
-      required: false
+      required: true
     });
     this.appname = this.app_name || this.appname;
 
@@ -63,8 +58,7 @@ var BackboneGenerator = yeoman.generators.Base.extend({
       ui: this.options.ui,
       testFramework: this.testFramework,
       templateFramework: this.templateFramework,
-      compassBootstrap: this.compassBootstrap,
-      includeRequireJS: this.includeRequireJS
+      compassBootstrap: this.compassBootstrap
     });
 
     this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index.html'));
@@ -91,11 +85,6 @@ var BackboneGenerator = yeoman.generators.Base.extend({
             name: 'Twitter Bootstrap for Sass',
             value: 'compassBootstrap',
             checked: true
-          },
-          {
-            name: 'Use RequireJs',
-            value: 'requirejs',
-            checked: this.options.requirejs || false
           }
         ]
       }
@@ -114,13 +103,8 @@ var BackboneGenerator = yeoman.generators.Base.extend({
       // manually deal with the response, get back and store the results.
       // we change a bit this way of doing to automatically do this in the self.prompt() method.
       this.compassBootstrap = hasFeature('compassBootstrap');
-      this.includeRequireJS = hasFeature('requirejs');
       this.config.set('compassBootstrap', this.compassBootstrap);
 
-      if (!this.options.requirejs) {
-        this.options.requirejs = this.includeRequireJS;
-        this.config.set('includeRequireJS', this.includeRequireJS);
-      }
       cb();
     }.bind(this));
   },
@@ -169,9 +153,6 @@ var BackboneGenerator = yeoman.generators.Base.extend({
     },
 
     writeIndex: function () {
-      if (this.includeRequireJS) {
-        return;
-      }
 
       this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index.html'));
       this.indexFile = this.engine(this.indexFile, this);
@@ -220,18 +201,6 @@ var BackboneGenerator = yeoman.generators.Base.extend({
       });
     },
 
-    writeIndexWithRequirejs: function () {
-      if (!this.includeRequireJS) {
-        return;
-      }
-      this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index.html'));
-      this.indexFile = this.engine(this.indexFile, this);
-
-      this.indexFile = this.appendScripts(this.indexFile, '/scripts/main.js', [
-        '/requirejs/require.js'
-      ], { 'data-main': '/scripts/main' }, 'bower_components');
-    },
-
     setupEnv: function () {
       this.mkdir(this.env.options.appPath);
       this.mkdir(this.env.options.appPath + '/scripts');
@@ -245,24 +214,12 @@ var BackboneGenerator = yeoman.generators.Base.extend({
       this.write(this.env.options.appPath + '/index.html', this.indexFile);
     },
 
-    createRequireJsAppFile: function () {
-      if (!this.includeRequireJS) {
-        return;
-      }
-      this._writeTemplate('requirejs_app', this.env.options.appPath + '/scripts/main');
-    },
-
     createAppFile: function () {
-      if (this.includeRequireJS) {
-        return;
-      }
       this._writeTemplate('app', this.env.options.appPath + '/scripts/app');
     },
 
     createBootstrapFile: function () {
-      if (!this.includeRequireJS) {
-        this._writeTemplate('bootstrap', this.env.options.appPath + '/scripts/bootstrap');
-      }
+      this._writeTemplate('bootstrap', this.env.options.appPath + '/scripts/bootstrap');
     }
   },
 

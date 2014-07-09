@@ -17,8 +17,7 @@ describe('Backbone generator with handlebars', function () {
       this.backbone.app = test.createAppGenerator(['temp'], {'template-framework': 'handlebars'});
 
       helpers.mockPrompt(this.backbone.app, {
-        features: ['compassBootstrap'],
-        includeRequireJS: false
+        features: ['compassBootstrap']
       });
 
       var out = [

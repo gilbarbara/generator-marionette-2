@@ -41,9 +41,7 @@ var ViewGenerator = scriptBase.extend({
 
     this.writeTemplate('view', path.join(this.env.options.appPath + '/scripts/views', this.name));
 
-    if (!this.options.requirejs) {
-      this.addScriptToIndex('views/' + this.name);
-    }
+    this.addScriptToIndex('views/' + this.name);
   }
 });
 

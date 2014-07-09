@@ -2,9 +2,6 @@
 
 A Marionette 2 generator for Yeoman that provides a functional boilerplate Marionette 2 app out of the box. You also get access to a number of sub-generators which can be used to easily create individual models, views, collections and so on.
 
-Optional RequireJS (AMD) support has recently been added as a prompt when using the generator on new projects.
-
-
 ## Usage
 
 Install: `npm install -g generator-marionette-2`
@@ -43,10 +40,6 @@ grunt serve
 * `--appPath`
 
   Generate scaffold into a custom directory.
-
-* `--requirejs`
-
-  Generate scaffolds using RequireJS (AMD) Loader. By default check if project uses RequireJS.
 
 * `--skip-install`
 

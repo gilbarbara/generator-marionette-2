@@ -1,5 +1,3 @@
-/*global <%= _.camelize(appname) %>, Backbone*/
-
 <%= _.camelize(appname) %>.Collections = <%= _.camelize(appname) %>.Collections || {};
 
 (function () {
